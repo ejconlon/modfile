@@ -4,6 +4,7 @@ module Main (main) where
 
 import           Data.Binary.Get
 import qualified Data.ByteString.Lazy as BL
+import qualified Data.ByteString.Lazy.Char8 as BLC
 import           Data.List
 
 import           Codec.Tracker.IT
@@ -14,12 +15,12 @@ import           Codec.Tracker.IT.Pattern
 pprintInstrument :: Instrument -> IO ()
 pprintInstrument Instrument{..} = do
     putStr $ "(" ++ show globalVolume ++ "): "
-    BL.putStrLn $ BL.pack name
+    BLC.putStrLn $ BL.pack name
 
 pprintHeader :: Header -> IO ()
 pprintHeader Header{..} = do
     putStr "Song name....: "
-    BL.putStrLn $ BL.pack songName
+    BLC.putStrLn $ BL.pack songName
     putStrLn $ "Orders.......: " ++ show songLength
     putStrLn $ "Instruments..: " ++ show numInstruments
     putStrLn $ "Samples......: " ++ show numSamples
@@ -43,7 +44,7 @@ main = do
     pprintHeader $ header it
     putStrLn "<>"
     putStr   "Message: "
-    BL.putStrLn $ BL.pack (message it)
+    BLC.putStrLn $ BL.pack (message it)
     putStrLn "Instruments:"
     putStrLn "============"
     mapM_ pprintInstrument (instruments it)

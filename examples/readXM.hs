@@ -4,6 +4,7 @@ module Main (main) where
 
 import           Data.Binary.Get
 import qualified Data.ByteString.Lazy as BL
+import qualified Data.ByteString.Lazy.Char8 as BLC
 import           Data.List
 import           Data.List.Split
 import           Text.Printf
@@ -20,15 +21,15 @@ n2key n  = ((cycle notes) !! (n - 1)) ++ (show $ div n 12)
 
 pprintInstrument :: Instrument -> IO ()
 pprintInstrument Instrument{..} = do
-    BL.putStr $ BL.pack instrumentName
+    BLC.putStr $ BL.pack instrumentName
     putStrLn $ " (" ++ show sampleNum ++ ")"
 
 pprintHeader :: Header -> IO ()
 pprintHeader Header{..} = do
     putStr     "Song name.......: "
-    BL.putStrLn $ BL.pack songName
+    BLC.putStrLn $ BL.pack songName
     putStr     "Tracker name....: "
-    BL.putStrLn $ BL.pack trackerName
+    BLC.putStrLn $ BL.pack trackerName
     putStrLn $ "Version.........: " ++ show version
     putStrLn $ "Orders..........: " ++ show songLength
     putStrLn $ "Restart position: " ++ show restartPosition

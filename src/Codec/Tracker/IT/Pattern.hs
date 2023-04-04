@@ -149,5 +149,5 @@ getRows cnt
           return $ x ++ [y]
 
 putRows :: [[Cell]] -> Put
-putRows _ = fail "not implemented"
+putRows _ = error "not implemented"
 
