@@ -1,12 +1,13 @@
 -- | Various helper functions used to read/write module files.
-module Util (
-        getAtOffset
-      , getByMask
-      , getToLimit
-      ) where
+module Util
+  ( getAtOffset
+  , getByMask
+  , getToLimit
+  )
+where
 
-import           Data.Binary.Get
-import           Data.Bits
+import Data.Binary.Get
+import Data.Bits
 
 -- | Run the given decoder at an offset (counting from the start) without consuming its input.
 getAtOffset :: Integral i => Get a -> i -> Get a
@@ -18,9 +19,11 @@ getByMask mask p f = sequence $ if testBit mask p then Just f else Nothing
 
 -- | Repeatedly run a decoder until a certain offset is reached and collect the results.
 getToLimit :: Integral i => Get a -> i -> Get [a]
-getToLimit f limit = flip toLimit [] =<< bytesRead 
-  where toLimit br0 lst = bytesRead >>=
-            \br1 -> if br1 - br0 < fromIntegral limit then
-                        toLimit br0 . (lst ++) . pure =<< f
-                    else pure lst
-
+getToLimit f limit = flip toLimit [] =<< bytesRead
+ where
+  toLimit br0 lst =
+    bytesRead
+      >>= \br1 ->
+        if br1 - br0 < fromIntegral limit
+          then toLimit br0 . (lst ++) . pure =<< f
+          else pure lst
